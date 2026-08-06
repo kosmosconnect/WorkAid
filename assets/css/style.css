@@ -371,8 +371,15 @@ p:last-child { margin-bottom: 0; }
     transform: scale(1.045);
   }
 }
+/* Touch devices never fire :hover, so the reveal is driven by scroll position
+   instead — main.js adds .is-colour while a frame sits in the middle band of
+   the screen. Same effect as the desktop hover, just triggered by the thing a
+   phone user actually does. */
 @media (hover: none) {
-  .media img { filter: grayscale(0%); }
+  .media.is-colour img {
+    filter: grayscale(0%) contrast(1);
+    transform: scale(1.03);
+  }
 }
 
 .media--ratio-4x3 { aspect-ratio: 4 / 3; }
@@ -668,7 +675,10 @@ p:last-child { margin-bottom: 0; }
   .industry:hover img, .industry:focus-visible img { filter: grayscale(0%) brightness(.82); transform: scale(1.06); }
   .industry:hover::after, .industry:focus-visible::after { border-color: var(--accent); }
 }
-@media (hover: none) { .industry img { filter: grayscale(0%) brightness(.72); } }
+@media (hover: none) {
+  .industry.is-colour img { filter: grayscale(0%) brightness(.85); transform: scale(1.04); }
+  .industry.is-colour::after { border-color: var(--accent); }
+}
 
 /* ---------- 10. Project / article tiles ------------------------------- */
 .tiles { display: grid; gap: clamp(1rem, 2vw, 1.5rem); }

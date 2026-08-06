@@ -10,8 +10,11 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <noscript><style>
 /* Scroll reveals start at opacity 0 and are switched on by JS. With no JS
-   the page would render blank, so show everything immediately instead. */
+   the page would render blank, so show everything immediately instead.
+   Likewise on touch, where JS drives the colour reveal — without it the
+   photography would stay black and white permanently. */
 .reveal{opacity:1!important;transform:none!important}
+.media img,.industry img{filter:none!important}
 </style></noscript>
 <script>
 /* Apply the saved theme before first paint so there is no flash. */

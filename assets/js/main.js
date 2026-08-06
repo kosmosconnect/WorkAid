@@ -104,6 +104,29 @@
     }
   }
 
+  /* ---------- Touch: colour the frames in view ----------------------- */
+  // On a phone there is no hover, so the black-and-white treatment would be
+  // permanent and the effect would simply be missing. Drive it from scroll
+  // position instead: a frame is coloured while it sits in the middle band of
+  // the viewport, so images come alive one by one as the page moves.
+  //
+  // Tapping is deliberately not used — nearly every frame sits inside a link,
+  // so a tap navigates away before the colour could be seen.
+  if (window.matchMedia && window.matchMedia("(hover: none)").matches &&
+      "IntersectionObserver" in window) {
+    var frames = $$(".media, .industry");
+    if (frames.length) {
+      // The band is generous so frames do not flicker grey while still well
+      // inside the screen, which would read as a bug rather than an effect.
+      var fio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          entry.target.classList.toggle("is-colour", entry.isIntersecting);
+        });
+      }, { rootMargin: "-14% 0px -14% 0px", threshold: 0 });
+      frames.forEach(function (el) { fio.observe(el); });
+    }
+  }
+
   /* ---------- Animated counters ------------------------------------- */
   var counters = $$("[data-count]");
   if (counters.length && "IntersectionObserver" in window) {
