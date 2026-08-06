@@ -381,63 +381,142 @@ p:last-child { margin-bottom: 0; }
 .media--ratio-16x9 { aspect-ratio: 16 / 9; }
 
 /* ---------- 7. Hero --------------------------------------------------- */
-.hero { padding-block: clamp(2.25rem, 4.5vw, 4.25rem) clamp(2.5rem, 5vw, 4.5rem); }
+.hero {
+  position: relative;
+  padding-block: clamp(2rem, 4vw, 3.5rem) clamp(2.5rem, 5vw, 4.5rem);
+}
+
+/* A second pass of the drafting grid, so it actually reads behind the hero
+   rather than being a barely-there texture. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 84px 84px;
+  mask-image: linear-gradient(to bottom, #000 45%, transparent 92%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 92%);
+}
+.hero .wrap { position: relative; z-index: 1; }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
-  gap: clamp(1.75rem, 4vw, 4rem);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(1.75rem, 4vw, 3.75rem);
   align-items: center;
 }
 
+.hero .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem .8rem .4rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--surface);
+  margin-bottom: 1.4rem;
+}
+.hero .eyebrow svg { width: 14px; height: 14px; color: var(--accent); }
+
+.hero h1 { margin-bottom: .28em; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+
 .hero-kicker {
-  font-size: clamp(1rem, 1.4vw, 1.22rem);
-  line-height: 1.45;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.55;
   color: var(--ink-soft);
-  max-width: 30ch;
-  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  max-width: 46ch;
+  margin: 0;
 }
 
-.hero h1 { margin-bottom: .12em; }
-.hero h1 .thin {
-  display: block;
-  font-size: .53em;
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: -.02em;
-  color: var(--ink);
-  line-height: 1.14;
-  margin-top: .3em;
+/* Capability chips — the twelve services compressed into a scannable row. */
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  list-style: none;
+  margin: clamp(1.25rem, 2.5vw, 1.75rem) 0 0;
+  padding: 0;
 }
-.hero h1 .thin em { font-style: normal; color: var(--accent); }
+.hero-chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .48rem .85rem;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--surface);
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: border-color .25s var(--ease), color .25s var(--ease);
+}
+.hero-chips li:hover { border-color: var(--accent); color: var(--ink); }
+.hero-chips svg { width: 14px; height: 14px; color: var(--accent); }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: .75rem;
-  margin-top: clamp(1.5rem, 3vw, 2.4rem);
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
 }
 
-.hero-media {
+/* Photo mosaic — one lead frame plus two supporting sectors. */
+.hero-mosaic {
   position: relative;
-  aspect-ratio: 4 / 3.35;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
+  display: grid;
+  grid-template-columns: minmax(0, 1.32fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  aspect-ratio: 1 / 1.04;
 }
-.hero-media .badge {
+.hm { position: relative; display: block; box-shadow: var(--shadow); }
+.hm--lead { grid-row: span 2; }
+.hm img { width: 100%; height: 100%; object-fit: cover; }
+
+.hm-tag {
   position: absolute;
-  left: 0; bottom: 0;
-  display: flex;
-  align-items: center;
-  gap: .55rem;
-  background: var(--accent);
-  color: var(--accent-ink);
-  padding: .8rem 1.2rem;
-  font-size: .72rem;
+  left: 10px; bottom: 10px;
+  padding: .34rem .7rem;
+  background: rgba(18, 18, 17, .74);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: #fff;
+  border-radius: 2px;
+  font-size: .64rem;
   font-weight: 700;
   letter-spacing: .13em;
   text-transform: uppercase;
+}
+
+.hm-badge {
+  position: absolute;
+  right: -10px;
+  bottom: -18px;
+  z-index: 2;
+  max-width: 200px;
+  padding: .95rem 1.2rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.hm-badge b {
+  display: block;
+  font-size: 1.9rem;
+  line-height: 1;
+  letter-spacing: -.035em;
+  margin-bottom: .2rem;
 }
 
 /* Stat strip ------------------------------------------------------- */
@@ -512,6 +591,17 @@ p:last-child { margin-bottom: 0; }
   color: var(--accent);
   margin-bottom: .7rem;
 }
+
+/* The "call us now" half of the triage pair — weighted so the eye lands on it
+   first without shouting. */
+.card--urgent {
+  border-left: 3px solid var(--accent);
+  background: linear-gradient(120deg, rgba(252, 234, 80, .1), transparent 55%);
+}
+[data-theme="dark"] .card--urgent {
+  background: linear-gradient(120deg, rgba(252, 203, 38, .09), transparent 55%);
+}
+.card--urgent .card-num { color: var(--ink); }
 
 /* Checklist ---------------------------------------------------------- */
 .checks { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
@@ -952,7 +1042,9 @@ p:last-child { margin-bottom: 0; }
     grid-template-columns: minmax(0, 1fr);
   }
   .sec-head { align-items: start; gap: 1rem; }
-  .split .media, .hero-media { order: -1; }
+  .split .media, .hero-mosaic { order: -1; }
+  .hero-mosaic { aspect-ratio: 3 / 2; }
+  .hm-badge { right: 10px; bottom: 10px; }
   .split--media-last .media { order: 0; }
   .quote-media { min-height: 220px; aspect-ratio: 16 / 9; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -969,6 +1061,9 @@ p:last-child { margin-bottom: 0; }
   .step::after { display: none; }
   .footer-grid { grid-template-columns: minmax(0, 1fr); }
   .hero-actions .btn { flex: 1 1 100%; justify-content: center; }
+  .hero-mosaic { aspect-ratio: 4 / 3; gap: 7px; }
+  .hm-badge { font-size: .62rem; padding: .7rem .85rem; }
+  .hm-badge b { font-size: 1.45rem; }
   .stats { grid-template-columns: minmax(0, 1fr); }
   .stat { border-right: 0; border-bottom: 1px solid var(--line); }
   .stat:last-child { border-bottom: 0; }
