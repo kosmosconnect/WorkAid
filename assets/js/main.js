@@ -87,7 +87,10 @@
           setTimeout(function () { entry.target.classList.add("is-in"); }, delay);
           io.unobserve(entry.target);
         });
-      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+        // threshold 0: reveal as soon as any part enters. A percentage
+        // threshold would strand any block taller than the viewport, which can
+        // never show that share of itself — and it would stay invisible.
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0 });
       reveals.forEach(function (el, i) {
         if (!el.hasAttribute("data-delay")) {
           var parent = el.parentElement;
