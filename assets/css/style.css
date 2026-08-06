@@ -494,12 +494,14 @@ p:last-child { margin-bottom: 0; }
   text-transform: uppercase;
 }
 
+/* Sits in the gutter on the left edge of the lead frame. Anchored well clear of
+   the tile captions, which live along the bottom of each frame. */
 .hm-badge {
   position: absolute;
-  right: -10px;
-  bottom: -18px;
+  left: -22px;
+  bottom: 28%;
   z-index: 2;
-  max-width: 200px;
+  max-width: 196px;
   padding: .95rem 1.2rem;
   background: var(--accent);
   color: var(--accent-ink);
@@ -1044,7 +1046,7 @@ p:last-child { margin-bottom: 0; }
   .sec-head { align-items: start; gap: 1rem; }
   .split .media, .hero-mosaic { order: -1; }
   .hero-mosaic { aspect-ratio: 3 / 2; }
-  .hm-badge { right: 10px; bottom: 10px; }
+  .hm-badge { left: auto; right: 10px; top: 10px; bottom: auto; }
   .split--media-last .media { order: 0; }
   .quote-media { min-height: 220px; aspect-ratio: 16 / 9; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
