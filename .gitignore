@@ -1,0 +1,10 @@
+# Editor / OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local tooling config, not part of the site
+.claude/
+
+# Original brand sheet as dropped in chat — a tidied copy lives in docs/
+WhatsApp Image*.jpeg

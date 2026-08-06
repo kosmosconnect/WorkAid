@@ -1,0 +1,155 @@
+# WORKAID — website
+
+A static, six-page marketing site. No build step, no framework, no dependencies —
+open the HTML files in a browser or drop the folder on any host.
+
+```
+index.html          Home
+services.html       Services (12 services across 2 divisions)
+case-studies.html   Case studies, filterable by sector
+resources.html      Learning resources + FAQ
+about.html          About us
+contact.html        Contact + enquiry form
+assets/css/style.css
+assets/js/main.js   Theme, nav, reveal, counters, slider, accordion, filters, forms
+assets/js/icons.js  Inline SVG icon sprite
+assets/img/         Photography (see "Images" below)
+tools/              Placeholder-image generator (not needed at runtime)
+```
+
+## Running it locally
+
+Double-clicking `index.html` works. For a closer match to production, serve it:
+
+```bash
+python -m http.server 5177
+```
+
+Then open <http://localhost:5177>.
+
+## Design system
+
+Brand tokens live at the top of `assets/css/style.css` as CSS custom properties.
+
+| Token | Light | Dark | Use |
+| --- | --- | --- | --- |
+| `--accent` | `#FCCB26` | same | Buttons, rules, active states |
+| `--accent-soft` | `#FCEA50` | same | Highlights |
+| `--ink` | `#20201F` | `#F5F3EF` | Headings, body |
+| `--bg` | `#FFFFFF` | `#121211` | Page background |
+
+Typeface is **Segoe UI** (the brand font) with a system fallback stack — no web
+font is downloaded, so there is nothing to self-host and nothing that can fail to load.
+
+### Light and dark themes
+
+Light is the default and stays the default regardless of the visitor's OS setting.
+Dark is opt-in via the sun/moon button in the header and is remembered in
+`localStorage` under `workaid-theme`. An inline script in each page's `<head>`
+applies the stored theme before first paint so there is no flash.
+
+To change the default to follow the OS instead, edit that inline snippet.
+
+### Black-and-white photos that colour on hover
+
+Every photo sits inside an element with `class="media"`. The CSS applies
+`filter: grayscale(100%)` and removes it on hover, together with a slow zoom.
+
+The rule is wrapped in `@media (hover: hover) and (pointer: fine)`, so phones and
+tablets — which have no hover state and would otherwise be stuck on the grey
+version forever — show the photos in full colour instead.
+
+## Images
+
+`assets/img/` currently holds **AI-generated architectural photography** (Google Flow,
+Nano Banana 2 — 20 originals at 1200px, a few reused across more than one slot).
+They are stand-ins, not photographs of WORKAID's work.
+
+Each file is a drop-in slot: replace it with a real photo of the same aspect ratio
+and no HTML or CSS needs to change. Swap them for genuine project photography before
+launch — a services company showing other people's buildings is a claim it cannot
+back up if a client asks.
+
+| File | Ratio | Where it appears |
+| --- | --- | --- |
+| `hero.jpg` | 4:3 | Homepage hero |
+| `service-home.jpg`, `service-industry.jpg` | 16:9 | Homepage division cards |
+| `industry-*.jpg` (6) | 3:4 | "Built for every sector" tiles |
+| `project-1…8.jpg` | 4:3 | Featured work + case studies |
+| `resource-1…6.jpg` | 3:2 | Learning resources |
+| `why-choose.jpg`, `testimonial.jpg` | 5:4 | Homepage |
+| `about-hero.jpg`, `about-story.jpg` | 4:3 | About page |
+| `contact-office.jpg` | 4:3 | Contact + about |
+
+Because the site desaturates images by default, pick photos with **strong colour**
+— the hover reveal is the whole effect, and a photo that is already grey has
+nowhere to go.
+
+`tools/make_placeholders.py` regenerates a set of neutral labelled placeholders if you
+ever need empty slots again (`python tools/make_placeholders.py` — note this overwrites
+`assets/img`). It is a convenience script only; delete the `tools/` folder once real
+photography is in.
+
+## Content that must be confirmed before launch
+
+These are taken from the reference design and are **not verified facts**:
+
+- **Photography** — every image is AI-generated (see "Images" above), not WORKAID's
+  own work.
+
+- **Statistics** — `15+ years`, `350+ projects`, `98% client satisfaction`,
+  `25+ professionals` (homepage and About). Replace with real numbers or remove
+  the strip.
+- **Testimonials** — three quotes on the homepage, attributed to `Rahul Mehta`,
+  `S. Pattnaik` and `A. Sahoo`. Replace with real, permissioned quotes or delete
+  the section.
+- **Case studies** — eight narratives written to a realistic pattern. Swap in
+  actual projects before publishing.
+- **Contact details** — `+91 123 456 7890` and `info@workaid.com` are the
+  placeholders from the reference. Search-and-replace across all six pages.
+- **Social links** — the four footer icons point at `#`.
+- **Warranty and response-time claims** — "site visits within 48 hours", "reply
+  within one working day". Only keep what the business will actually honour.
+
+## The enquiry form
+
+`contact.html` has no backend. On submit, `main.js` validates the fields and then
+opens the visitor's mail client with everything filled in (`mailto:`), which lets
+them attach photographs before sending.
+
+To switch to a real endpoint, replace the `window.location.href = "mailto:…"` block
+in `main.js` with a `fetch()` POST. A hosted form service (Formspree, Web3Forms,
+Getform) needs only the form's `action` and `method` — or point it at your own
+handler.
+
+The address the mail opens to comes from `data-mailto` on the form, and the subject
+from `data-subject`.
+
+## Adding the map
+
+`contact.html` has a placeholder panel marked `id="map"`. Replace the `.media` block
+beside it with an embedded map once the full street address is confirmed:
+
+```html
+<iframe src="https://www.google.com/maps/embed?pb=YOUR_EMBED_CODE"
+        width="100%" height="420" style="border:0" loading="lazy"
+        title="WORKAID office location"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+```
+
+## Accessibility and performance notes
+
+- Skip link, visible focus rings, `aria-current` on the active nav item, labelled
+  form fields with live error messages, and `aria-expanded` on the menu and accordions.
+- `prefers-reduced-motion` disables reveals, counters and the slow zoom.
+- Images below the fold use `loading="lazy"`; the hero uses `fetchpriority="high"`.
+- No external requests at all — no CDN, no analytics, no web fonts. Nothing to
+  block, nothing to consent to.
+
+## Before going live
+
+1. Replace placeholder images, statistics, testimonials and contact details.
+2. Point the form at a real endpoint.
+3. Add `favicon.ico` / apple-touch icons if you want more than the inline SVG favicon.
+4. Add `robots.txt` and a `sitemap.xml`.
+5. Set `<link rel="canonical">` on each page once the domain is known.
