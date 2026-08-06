@@ -216,9 +216,6 @@
   });
 
   /* ---------- Forms -------------------------------------------------- */
-  // No backend is wired up yet, so submissions are validated and then handed
-  // to the visitor's mail client. Swap the handler for a POST when the
-  // endpoint exists (see README).
   // resources.html links here as contact.html?request=monsoon-checklist#quote —
   // prefill the message so the visitor does not retype what they clicked.
   (function () {
@@ -280,9 +277,26 @@
         return;
       }
 
+      // A form with an action posts to it for real. HTMLFormElement.submit()
+      // is used deliberately: unlike requestSubmit() it does not re-fire this
+      // handler, so there is no loop.
+      if (form.getAttribute("action")) {
+        if (status) status.textContent = "Sending your enquiry…";
+        var btn = $("button[type=submit]", form);
+        if (btn) { btn.disabled = true; }
+        form.submit();
+        return;
+      }
+
+      // No endpoint configured — fall back to handing the details to the
+      // visitor's mail client. Note this silently does nothing for anyone on
+      // webmail with no desktop mail client, which is why the real form has an
+      // action. See README.
       var data = new FormData(form);
       var lines = [];
-      data.forEach(function (v, k) { if (String(v).trim()) lines.push(k + ": " + v); });
+      data.forEach(function (v, k) {
+        if (k.charAt(0) !== "_" && String(v).trim()) lines.push(k + ": " + v);
+      });
 
       var to = form.getAttribute("data-mailto") || "info@workaid.com";
       var subject = form.getAttribute("data-subject") || "Website enquiry";
@@ -291,8 +305,7 @@
         "&body=" + encodeURIComponent(lines.join("\n"));
 
       if (status) {
-        status.textContent = "Thanks — your mail client is opening with the details filled in. " +
-          "Prefer to talk? Call +91 123 456 7890.";
+        status.textContent = "Thanks — your mail client is opening with the details filled in.";
       }
       form.reset();
     });

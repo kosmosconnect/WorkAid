@@ -988,6 +988,38 @@ p:last-child { margin-bottom: 0; }
 .crumbs { display: flex; gap: .5rem; font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.1rem; }
 .crumbs a:hover { color: var(--accent); }
 
+/* ---------- 18b. WhatsApp button ------------------------------------- */
+/* Fixed on every page. Someone photographing a damp ceiling wants to send that
+   photo, not fill in six fields — so this is the shortest path to a lead. */
+.wa-fab {
+  position: fixed;
+  right: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .85rem 1.15rem;
+  background: #25d366;
+  color: #fff;
+  border-radius: 100px;
+  box-shadow: 0 6px 24px -6px rgba(37, 211, 102, .7), 0 2px 6px rgba(0, 0, 0, .18);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.wa-fab:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -8px rgba(37, 211, 102, .85); }
+.wa-fab svg { width: 21px; height: 21px; }
+
+/* Below the wide breakpoint it collapses to a circle so it never covers copy. */
+@media (max-width: 780px) {
+  .wa-fab { padding: 0; width: 54px; height: 54px; justify-content: center; }
+  .wa-fab .wa-label { display: none; }
+  .wa-fab svg { width: 26px; height: 26px; }
+}
+
 /* ---------- 19. Reveal animation ------------------------------------- */
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s var(--ease), transform .65s var(--ease); }
 .reveal.is-in { opacity: 1; transform: none; }

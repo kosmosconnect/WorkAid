@@ -81,10 +81,11 @@
           <a class="link-arrow" href="#map">See location <svg class="ico"><use href="#i-arrow-right"></use></svg></a>
         </article>
         <article class="card reveal">
-          <span class="card-icon"><svg class="ico"><use href="#i-clock"></use></svg></span>
-          <h3>Office hours</h3>
-          <p>Monday to Saturday, 9:30 am – 6:30 pm. Sunday by appointment.</p>
-          <a class="link-arrow" href="#quote">Request a slot <svg class="ico"><use href="#i-arrow-right"></use></svg></a>
+          <span class="card-icon"><svg class="ico ico--fill"><use href="#i-whatsapp"></use></svg></span>
+          <h3>WhatsApp us</h3>
+          <p>The quickest route of all — send a photo of the problem and we will read it the same day.</p>
+          <a class="link-arrow" href="https://wa.me/911234567890?text=Hi%20WORKAID%2C%20I%20have%20a%20question%20about%20"
+             target="_blank" rel="noopener">Open WhatsApp <svg class="ico"><use href="#i-arrow-right"></use></svg></a>
         </article>
       </div>
     </div>
@@ -100,7 +101,7 @@
           <h2>Start with<br>a site visit</h2>
           <div class="rule" style="margin-bottom:1.6rem"></div>
           <p>Fill this in with as much detail as you have. Photographs help more than adjectives —
-             you can attach them to the email that opens when you submit.</p>
+             if you have any, send them on WhatsApp and we will match them to your enquiry.</p>
 
           <ul class="checks" style="margin-top:1.75rem">
             <li><svg class="ico"><use href="#i-check-circle"></use></svg><span><b>We reply within one working day.</b></span></li>
@@ -119,7 +120,21 @@
         </div>
 
         <div class="card reveal" style="padding:clamp(1.4rem,3vw,2.25rem)">
-          <form class="form" data-validate data-mailto="info@workaid.com" data-subject="Website enquiry — WORKAID" novalidate>
+          <!-- Posts to FormSubmit, which emails the enquiry. GitHub Pages cannot
+               receive a POST itself. Replace the address in the action on the
+               first line below with the real inbox, then submit the form once
+               and click FormSubmit's confirmation email — enquiries are silently
+               discarded until that is done. -->
+          <form class="form"
+                action="https://formsubmit.co/info@workaid.com"
+                method="POST"
+                data-validate novalidate>
+            <input type="hidden" name="_subject" value="New enquiry from workaid.com">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" value="https://kosmosconnect.github.io/WorkAid/thank-you.html">
+            <input type="hidden" name="_captcha" value="false">
+            <!-- Honeypot: bots fill it, humans never see it. -->
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="grid g-2" style="gap:1.1rem">
               <div class="field">
@@ -192,9 +207,10 @@
             <button class="btn" type="submit">Send enquiry <svg class="ico"><use href="#i-send"></use></svg></button>
 
             <p class="form-status" role="status" aria-live="polite"></p>
-            <p class="form-note">Submitting opens your email app with these details filled in, so you can
-               attach photographs before sending. Prefer to write directly? Use
-               <a href="mailto:info@workaid.com">info@workaid.com</a>.</p>
+            <p class="form-note">We read every enquiry and reply within one working day. To send
+               photographs, message us on
+               <a href="https://wa.me/911234567890" target="_blank" rel="noopener">WhatsApp</a>
+               or write to <a href="mailto:info@workaid.com">info@workaid.com</a>.</p>
           </form>
         </div>
 
@@ -284,11 +300,16 @@
           <li><svg class="ico"><use href="#i-map-pin"></use></svg><span>Bhubaneswar, Odisha, India</span></li>
           <li><svg class="ico"><use href="#i-phone"></use></svg><a href="tel:+911234567890">+91 123 456 7890</a></li>
           <li><svg class="ico"><use href="#i-mail"></use></svg><a href="mailto:info@workaid.com">info@workaid.com</a></li>
+          <li><svg class="ico ico--fill"><use href="#i-whatsapp"></use></svg><a href="https://wa.me/911234567890" target="_blank" rel="noopener">WhatsApp us</a></li>
           <li><svg class="ico"><use href="#i-clock"></use></svg><span>Mon–Sat, 9:30 am – 6:30 pm</span></li>
         </ul>
         <h4 style="margin-top:1.75rem">Newsletter</h4>
         <p style="margin:0">Occasional notes on upkeep, compliance and cost control.</p>
-        <form class="newsletter" data-validate data-subject="Newsletter signup">
+        <form class="newsletter" action="https://formsubmit.co/info@workaid.com" method="POST" data-validate>
+          <input type="hidden" name="_subject" value="Newsletter signup — workaid.com">
+          <input type="hidden" name="_next" value="https://kosmosconnect.github.io/WorkAid/thank-you.html">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label class="field" style="flex:1;display:block">
             <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your email address</span>
             <input type="email" name="Email" placeholder="Your email address" required>
@@ -303,6 +324,13 @@
     </div>
   </div>
 </footer>
+
+<!-- WhatsApp. Replace the number in href on all pages (see README). -->
+<a class="wa-fab" href="https://wa.me/911234567890?text=Hi%20WORKAID%2C%20I%20have%20a%20question%20about%20"
+   target="_blank" rel="noopener" aria-label="Message WORKAID on WhatsApp">
+  <svg class="ico ico--fill"><use href="#i-whatsapp"></use></svg>
+  <span class="wa-label">WhatsApp</span>
+</a>
 
 <script src="assets/js/main.js" defer></script>
 </body>

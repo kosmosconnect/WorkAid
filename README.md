@@ -118,19 +118,53 @@ These are taken from the reference design and are **not verified facts**:
 - **Warranty and response-time claims** — "site visits within 48 hours", "reply
   within one working day". Only keep what the business will actually honour.
 
+## ⚠️ Two values to replace before launch
+
+The site ships with the reference design's placeholders. **Both must be changed or
+enquiries go nowhere.** Search and replace across all `.html` files:
+
+| Find | Replace with | Appears in |
+| --- | --- | --- |
+| `info@workaid.com` | the real inbox | form action, footers, mail links |
+| `911234567890` | the real WhatsApp number, country code first, no `+` or spaces | WhatsApp button and links |
+| `+91 123 456 7890` | the same number, formatted for display | visible phone text |
+
 ## The enquiry form
 
-`contact.html` has no backend. On submit, `main.js` validates the fields and then
-opens the visitor's mail client with everything filled in (`mailto:`), which lets
-them attach photographs before sending.
+GitHub Pages serves static files and **cannot receive a form POST**. The form
+therefore posts to [FormSubmit](https://formsubmit.co), which emails the enquiry on.
 
-To switch to a real endpoint, replace the `window.location.href = "mailto:…"` block
-in `main.js` with a `fetch()` POST. A hosted form service (Formspree, Web3Forms,
-Getform) needs only the form's `action` and `method` — or point it at your own
-handler.
+`main.js` validates first; only a valid form is submitted. Any form carrying an
+`action` posts for real, and a form without one falls back to `mailto:` — that
+fallback silently does nothing for anyone using webmail with no desktop mail
+client, which is exactly why the real form has an action.
 
-The address the mail opens to comes from `data-mailto` on the form, and the subject
-from `data-subject`.
+**Activating it takes one step.** Put the real address in the form's `action`, submit
+the form once, and click the confirmation link FormSubmit emails you. Until that is
+done **submissions are discarded silently**. Do this before the site is advertised.
+
+Hidden fields on the form control FormSubmit's behaviour:
+
+| Field | Purpose |
+| --- | --- |
+| `_subject` | Subject line of the email you receive |
+| `_template=table` | Formats the enquiry as a readable table |
+| `_next` | Where the visitor lands afterwards — `thank-you.html` |
+| `_captcha=false` | Skips FormSubmit's captcha page |
+| `_honey` | Honeypot; bots fill it, humans never see it |
+
+The footer newsletter form posts to the same endpoint with its own `_subject`.
+
+To move to a different provider later, change the `action` — nothing else depends on it.
+
+## WhatsApp
+
+A fixed button sits bottom-right on every page, collapsing to a circle below 780px.
+There are also entries in the contact page's channel cards and in every footer.
+
+For most visitors this will out-convert the form: someone photographing a damp
+ceiling wants to send that photo, not fill in six fields. The link carries a
+pre-filled opening message, which you can edit in the `href`.
 
 ## Adding the map
 

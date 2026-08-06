@@ -318,11 +318,16 @@
           <li><svg class="ico"><use href="#i-map-pin"></use></svg><span>Bhubaneswar, Odisha, India</span></li>
           <li><svg class="ico"><use href="#i-phone"></use></svg><a href="tel:+911234567890">+91 123 456 7890</a></li>
           <li><svg class="ico"><use href="#i-mail"></use></svg><a href="mailto:info@workaid.com">info@workaid.com</a></li>
+          <li><svg class="ico ico--fill"><use href="#i-whatsapp"></use></svg><a href="https://wa.me/911234567890" target="_blank" rel="noopener">WhatsApp us</a></li>
           <li><svg class="ico"><use href="#i-clock"></use></svg><span>Mon–Sat, 9:30 am – 6:30 pm</span></li>
         </ul>
         <h4 style="margin-top:1.75rem">Newsletter</h4>
         <p style="margin:0">Occasional notes on upkeep, compliance and cost control.</p>
-        <form class="newsletter" data-validate data-subject="Newsletter signup">
+        <form class="newsletter" action="https://formsubmit.co/info@workaid.com" method="POST" data-validate>
+          <input type="hidden" name="_subject" value="Newsletter signup — workaid.com">
+          <input type="hidden" name="_next" value="https://kosmosconnect.github.io/WorkAid/thank-you.html">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label class="field" style="flex:1;display:block">
             <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your email address</span>
             <input type="email" name="Email" placeholder="Your email address" required>
@@ -337,6 +342,13 @@
     </div>
   </div>
 </footer>
+
+<!-- WhatsApp. Replace the number in href on all pages (see README). -->
+<a class="wa-fab" href="https://wa.me/911234567890?text=Hi%20WORKAID%2C%20I%20have%20a%20question%20about%20"
+   target="_blank" rel="noopener" aria-label="Message WORKAID on WhatsApp">
+  <svg class="ico ico--fill"><use href="#i-whatsapp"></use></svg>
+  <span class="wa-label">WhatsApp</span>
+</a>
 
 <script src="assets/js/main.js" defer></script>
 </body>
